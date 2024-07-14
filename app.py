@@ -6,7 +6,7 @@ import requests
 import os
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a random secret key for session management
+app.secret_key = 'Thekeyisnotwhatyouthink'  # Replace with a random secret key for session management
 
 SAVE_DIR = "./static/instagram_downloads"
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -220,46 +220,47 @@ def dashboard():
 
 @app.route('/download', methods=['POST'])
 def download():
+    if 'username' not in session:
+        return redirect(url_for('index'))
+
     action = request.form['action']
-    profile_name = request.form.get('profile_name', None)
-    post_url = request.form.get('post_url', None)
+    profile_name = request.form.get('profile_name')
+    post_url = request.form.get('post_url')
 
     if action == 'all_posts':
-                 message = download_all_posts(profile_name)
-       elif action == 'all_stories':
-           message = download_all_stories(profile_name)
-       elif action == 'profile_picture':
-           message = download_profile_picture(profile_name)
-       elif action == 'followers_followees':
-           followers, followees = download_followers_followees(profile_name)
-           if isinstance(followers, str):
-               message = followers
-           else:
-               message = f"Followers of {profile_name}: {followers}<br>Followees of {profile_name}: {followees}"
-       elif action == 'follow_back':
-           follow_back = download_follow_back(profile_name)
-           message = f"Follow back from {profile_name}: {follow_back}"
-       elif action == 'not_follow_back':
-           not_follow_back = download_not_follow_back(profile_name)
-           message = f"Not following back from {profile_name}: {not_follow_back}"
-       elif action == 'followees_stories':
-           message = download_followees_stories()
-       elif action == 'tagged_posts':
-           message = download_tagged_posts(profile_name)
-       elif action == 'saved_posts':
-           message = download_saved_posts()
-       elif action == 'igtv_videos':
-           message = download_igtv_videos(profile_name)
-       elif action == 'highlights':
-           message = download_highlights(profile_name)
-       elif action == 'public_post':
-           message = download_public_post_from_link(post_url)
-       else:
-           message = "Invalid action."
+        message = download_all_posts(profile_name)
+    elif action == 'all_stories':
+        message = download_all_stories(profile_name)
+    elif action == 'profile_picture':
+        message = download_profile_picture(profile_name)
+    elif action == 'followers_followees':
+        followers, followees = download_followers_followees(profile_name)
+        if isinstance(followers, str):
+            message = followers
+        else:
+            message = f"Followers of {profile_name}: {followers}<br>Followees of {profile_name}: {followees}"
+    elif action == 'follow_back':
+        follow_back = download_follow_back(profile_name)
+        message = f"Follow back from {profile_name}: {follow_back}"
+    elif action == 'not_follow_back':
+        not_follow_back = download_not_follow_back(profile_name)
+        message = f"Not following back from {profile_name}: {not_follow_back}"
+    elif action == 'followees_stories':
+        message = download_followees_stories()
+    elif action == 'tagged_posts':
+        message = download_tagged_posts(profile_name)
+    elif action == 'saved_posts':
+        message = download_saved_posts()
+    elif action == 'igtv_videos':
+        message = download_igtv_videos(profile_name)
+    elif action == 'highlights':
+        message = download_highlights(profile_name)
+    elif action == 'public_post':
+        message = download_public_post_from_link(post_url)
+    else:
+        message = "Invalid action."
 
-       return render_template('result.html', message=message)
+    return render_template('result.html', message=message)
 
-   if __name__ == "__main__":
-       app.run(debug=True)
-
-       
+if __name__ == "__main__":
+    app.run(debug=True)
