@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Downloader Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ session['username'] }}!</h1>
+    <form action="{{ url_for('download') }}" method="post">
+        <label for="profile_name">Profile Name:</label>
+        <input type="text" name="profile_name" id="profile_name"><br>
+        <label for="post_url">Post URL:</label>
+        <input type="text" name="post_url" id="post_url"><br>
+        <select name="action">
+            <option value="all_posts">Download All Posts</option>
+            <option value="all_stories">Download All Stories</option>
+            <option value="profile_picture">Download Profile Picture</option>
+            <option value="followers_followees">Download Followers and Followees List</option>
+            <option value="follow_back">Download Followees Who Follow Back</option>
+            <option value="not_follow_back">Download Followees Who Do Not Follow Back</option>
+            <option value="followees_stories">Download Stories of Followees</option>
+            <option value="tagged_posts">Download Tagged Posts</option>
+            <option value="saved_posts">Download Saved Posts</option>
+            <option value="igtv_videos">Download IGTV Videos</option>
+            <option value="highlights">Download Highlights</option>
+            <option value="public_post">Download Public Post from Link</option>
+        </select>
+        <button type="submit">Download</button>
+    </form>
+</body>
+</html>
